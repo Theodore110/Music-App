@@ -27,39 +27,121 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(13, 202, 240, 0.3) !important;
         }
+        .form-control, .form-select {
+            background-color: #2d2d2d;
+            border: 1px solid #444;
+            color: white;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #3d3d3d;
+            color: white;
+            border-color: #87CEEB;
+            box-shadow: 0 0 0 0.25rem rgba(135, 206, 235, 0.25);
+        }
+        .btn-submit {
+            background-color: #87CEEB;
+            color: #121212;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-submit:hover {
+            background-color: #65b8e0;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
-<body class="d-flex flex-column justify-content-center align-items-center">
-    <div class="hero-content text-center mb-5">
-        <h2 class="p-5 text-white">Lets help you get the best help!</h2>
-        <p class="text-light lead">What is your start-up budget?</p>
+<body class="d-flex flex-column justify-content-center align-items-center text-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="form-container p-4 p-md-5 shadow-lg">
+                    <div class="text-center mb-5">
+                        <i class="bi bi-person-plus-fill text-success" style="font-size: 2.5rem;"></i>
+                        <h2 class="mt-3">Artist Registration</h2>
+                        <p class="text-light lead">Complete your profile to get started</p>
+                    </div>
+                    
+                    <form id="form" action="user_dashboard.html" method="post">
+                        <!-- Full Name -->
+                        <div class="mb-4">
+                            <label for="fullName" class="form-label">Full Legal Name</label>
+                            <input type="text" class="form-control form-control-md" id="fullName" required>
+                        </div>
+                        
+                        <!-- Stage Name -->
+                        <div class="mb-4">
+                            <label for="stageName" class="form-label">Stage Name/Alias</label>
+                            <input type="text" class="form-control form-control-md" id="stageName">
+                            <div class="form-text text-info">Leave blank if same as legal name</div>
+                        </div>
+                        
+                        <!-- Contact Info -->
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="phone" class="form-label">Cell Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">+27</span>
+                                    <input type="tel" class="form-control form-control-md" id="phone" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control form-control-md" id="email" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Budget Selection -->
+                        <div class="mb-5">
+                            <label for="budget" class="form-label">Budget</label>
+                            <select class="form-select form-select-sm" id="budget" required>
+                                <option id="" value="" selected disabled>Select your budget range</option>
+                                <option id="" value="0-999">R0 - R99 </option>
+                                <option id="" value="1000-4999">R100 - R199 </option>
+                                <option id="" value="5000-19999">R200 - R299</option>
+                                <option id="" value="20000+">R300+</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-submit btn-lg py-3">
+                                <i class="bi bi-send-fill me-2"></i> Complete Registration
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+
     
-    <div class="mt-4">
-        <a href="#" class="text-decoration-none">
-            <button class="cta-button btn btn-info btn-lg rounded-pill px-5 py-3 text-white fw-bold">
-                R0 - R99 
-            </button>
-        </a>
-    </div>
-    <div class="mt-4">
-        <a href="#" class="text-decoration-none">
-            <button class="cta-button btn btn-info btn-lg rounded-pill px-5 py-3 text-white fw-bold">
-                R100 - R199
-            </button>
-        </a>
-    </div>
-    <div class="mt-4">
-        <a href="#" class="text-decoration-none">
-            <button class="cta-button btn btn-info btn-lg rounded-pill px-5 py-3 text-white fw-bold">
-                R200 - R299
-            </button>
-        </a>
-    </div>
-    <br>
     <a class="text-light" href="role.html"><i class="bi bi-arrow-left"></i>Back </a>
 
     <!-- Bootstrap JS -->
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var userName = document.getElementById('stageName').value;
+
+        // Form validation would go here
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            alert('Form submitted successfully!');
+            // Add AJAX submission logic here
+        });
+        document.getElementById('form').addEventListener('submit', submitForm)
+
+        function submitForm()
+        {
+            const isValid = true;
+            if (isValid){
+                window.location.href = `user_dashboard.html?username=${encodeURIComponent(userName)}`;
+            }
+            btn.innerHTML = `
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Loading...`;
+                btn.disabled = true;
+        }
+    </script>
 </body>
 </html>

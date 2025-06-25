@@ -66,12 +66,12 @@
         <div class="row mb-4">
             <div class="col-6 mb-3">
                 <div class="card bg-info card-custom p-3">
-                    <small class="text-light">Role</small>
+                    <small id="alias" class="text-light"></small>
                 </div>
             </div>
             <div class="col-6 mb-3">
                 <div class="card bg-info card-custom p-3">
-                    <small class="text-light">Budget: </small>
+                    <small id="budget" class="text-light">Budget: </small>
                 </div>
             </div>
         </div>
@@ -123,13 +123,22 @@
             </a>
             <a href="about.html" class="nav-link">
                 <i class="bi bi-info-circle"></i>
-                <small>About </small>
+                <small>About</small>
             </a>
         </div>
     </nav>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
+        var urlParam = new URLSearchParams(window.location.search);
+        var userName = urlParam.get('username');
+
+        if(userName){
+            document.getElementById('alias').innerHTML(userName)
+        }
+        else{
+            document.getElementById('alias').textContent = "Welcome Artist!"
+        }
     </script>
 </body>
 </html>
