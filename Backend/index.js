@@ -4,7 +4,7 @@ const PORT = 5000;
 
 //Routes
 app.get("/", (req, res) =>{
-    res.statu(400).send("Supposed to be a page");
+    res.status(400).send("Supposed to be a page");
 })
 
 app.get("/budget", (req, res)=> {
