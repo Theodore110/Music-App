@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan"); //http request logging
 const cors = require("cors"); // CORS middleware to allow cross-origin requests
+const path = require("path"); // Node.js path module for correct file paths
 const app = express();
 const PORT = 5000;
 
@@ -11,23 +12,26 @@ app.use(morgan("dev"));
 app.use(cors());
 
 //middlewares and static files
-app.use(express.static("../music-app"));
+app.use('/images', express.static(path.join(__dirname, '../images')));
+
+app.use('/bootstrap', express.static(path.join(__dirname, '../bootstrap')));
+console.log(path.join(__dirname, '../bootstrap'));
 
 //Routes
 app.get("/", (req, res) =>{
-    res.status(200).sendFile(__dirname + '/../index.html');
+    res.status(200).sendFile(path.join(__dirname, "../index.html"));
 });
 
 app.get("/budget", (req, res)=> {
-    res.status(200).sendFile(__dirname + '/../budget.html');
+    res.status(200).sendFile(path.join(__dirname, "../budget.html"));
 });
 
 app.get("/role", (req, res) => {
-    res.status(200).sendFile(__dirname + '/../role.html');
+    res.status(200).sendFile(path.join(__dirname, "../role.html"));
 });
 
 app.get("/dashboard", (req, res) => {
-    res.status(200).sendFile(__dirname + '/../user_dashboard.html');
+    res.status(200).sendFile(path.join(__dirname, "../user_dashboard.html"));
 });
 
 app.all("*", (req, res)=> {
