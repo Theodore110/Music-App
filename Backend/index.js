@@ -1,44 +1,60 @@
-const express = require("express");
-const morgan = require("morgan"); //http request logging
-const cors = require("cors"); // CORS middleware to allow cross-origin requests
-const path = require("path"); // Node.js path module for correct file paths
+const express = require('express');
 const app = express();
-const PORT = 5000;
+const morgan = require("morgan");
+const cors = require("cors");
+const path = require("path");
+const { User } = require("./database"); // Import User model
 
-// Middlewares
+const PORT = 5500;
+
+//middlewares
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(cors());
 
-//middlewares and static files
-app.use('/images', express.static(path.join(__dirname, '../images')));
-
-app.use('/bootstrap', express.static(path.join(__dirname, '../bootstrap')));
-console.log(path.join(__dirname, '../bootstrap'));
+//Static files
+app.use(express.static(path.join(__dirname, '../')));
 
 //Routes
-app.get("/", (req, res) =>{
-    res.status(200).sendFile(path.join(__dirname, "../index.html"));
+app.get('/', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, '../index.html'));
+});
+app.get('/role', (req, res)=> {
+    res.status(200).sendFile(path.join(__dirname, '../role.html'));
+});
+app.get('/budget', (req, res)=> {
+    res.status(200).sendFile(path.join(__dirname, '../budget.html'));
+});
+app.get('/user_dashboard', (req, res)=> {
+    res.status(200).sendFile(path.join(__dirname, '../user_dashboard.html'));
 });
 
-app.get("/budget", (req, res)=> {
-    res.status(200).sendFile(path.join(__dirname, "../budget.html"));
+// API route to add a user
+app.post('/api/users', async (req, res) => {
+  try {
+    const user = new User(req.body);
+    await user.save();
+    res.status(201).json(user);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
-app.get("/role", (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, "../role.html"));
+// API route to get all users
+app.get('/api/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-app.get("/dashboard", (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, "../user_dashboard.html"));
-});
-
-app.all("*", (req, res)=> {
-    res.status(404).send("Page not found");
+app.use((req, res) => {
+  res.status(404).send("Page Not Found");
 });
 
 //Server starting
 app.listen(PORT, ()=> {
     console.log("Server running...");
-})
+});
